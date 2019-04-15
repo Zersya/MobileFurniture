@@ -176,7 +176,7 @@ class FormLogin extends StatelessWidget {
           return Center(child: CircularProgressIndicator());
         } else {
           return GestureDetector(
-            onTap: () {},
+            onTap: _onLogin,
             child: SizedBox(
               width: 70,
               height: 50,
@@ -190,13 +190,6 @@ class FormLogin extends StatelessWidget {
                   )),
             ),
           );
-          // return FlatButton.icon(
-          //   icon: Icon(MdiIcons.arrowRight),
-          //   label: Text(''),
-          //   color: Color.fromRGBO(131, 132, 105, 1),
-          //   textColor: Colors.white,
-          //   onPressed: _onLogin,
-          // );
         }
       },
     );

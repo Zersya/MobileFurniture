@@ -18,27 +18,24 @@ class _SplashScreenState extends State<SplashScreen> {
       bloc: _authBloc,
       builder: (BuildContext context, AuthState state) {
         print(state);
-        return BlocProvider(
-            bloc: _authBloc,
-            child: LoginScreen(),
-          );
         if (state is AuthInitial) {
           _authBloc.dispatch(CheckingAuth());
           return Scaffold(
+            backgroundColor: Color.fromRGBO(223, 211, 195, 1),
               body: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  'HARPA',
+                  'Harpa Furniture',
                   style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 55,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 35,
                       fontFamily: 'DancingScript',
-                      color: Colors.brown),
+                      color: Color.fromRGBO(131, 132, 105, 1)),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: 15),
+                  padding: EdgeInsets.only(top: 25),
               child: CircularProgressIndicator(
             valueColor: new AlwaysStoppedAnimation<Color>(
                 Color.fromRGBO(199, 177, 152, 1)),
