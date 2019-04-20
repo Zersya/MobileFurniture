@@ -40,6 +40,13 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Image(image: new AssetImage("images/VAtas.png"),
           fit: BoxFit.cover,)
         ),
+        
+      Positioned(
+          bottom: 0,
+          right: 0,
+          child: Image(image: new AssetImage("images/VBawah.png"),
+          fit: BoxFit.cover,)
+        ),
         Center(
           child: Container(
             padding: EdgeInsets.all(32.0),
@@ -83,12 +90,6 @@ class _LoginScreenState extends State<LoginScreen> {
               )),
             ),
           ),
-        ),
-      Positioned(
-          bottom: 0,
-          right: 0,
-          child: Image(image: new AssetImage("images/VBawah.png"),
-          fit: BoxFit.cover,)
         ),
       ]),
     );
@@ -197,8 +198,8 @@ class FormLogin extends StatelessWidget {
 
   void _onLogin() {
     if (_formKey.currentState.validate()) {
-      _usernameController.text = 'zeinersyad';
-      _passwordController.text = '123456';
+      // _usernameController.text = 'zeinersyad';
+      // _passwordController.text = '123456';
       loginBloc.dispatch(SubmitLogin(
           _usernameController.text, _passwordController.text, scaffoldKey));
     }
