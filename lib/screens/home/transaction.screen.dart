@@ -42,7 +42,7 @@ class _TransactionOrderState extends State<TransactionOrder> {
                     height: 30,
                   ),
                   Text(
-                    'Keranjang saya',
+                    'Transaksi saya',
                     style: TextStyle(
                         fontSize: 32,
                         color: Colors.black87,
@@ -130,12 +130,16 @@ class _TransactionOrderState extends State<TransactionOrder> {
               ),
             ),
           );
-        } else
+        }
+        else if (state is NotLoadedTransaction){
+          return  Center(child: Text('Kamu belum memesan apapun'));
+        }
+        else{
           return Center(
               child: CircularProgressIndicator(
             valueColor: new AlwaysStoppedAnimation<Color>(
-                Color.fromRGBO(199, 177, 152, 1)),
-          ));
+                Color.fromRGBO(199, 177, 152, 1))));
+        }
       },
     );
   }

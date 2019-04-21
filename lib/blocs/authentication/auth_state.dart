@@ -35,3 +35,17 @@ class NotAuthenticated extends AuthState {
     return 'NotAuthenticated';
   }
 }
+
+class SuccesLogout extends AuthState {
+  @override
+  String toString() {
+    return 'SuccesLogout';
+  }
+}
+class FailedLogout extends AuthState {
+  @override
+  String toString() {
+    return 'FailedLogout';
+  }
+}
+

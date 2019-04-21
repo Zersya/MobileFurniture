@@ -16,19 +16,30 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   @override
   Stream<AuthState> mapEventToState(AuthEvent event) async* {
+    print(event.toString());
     // TODO: implement mapEventToState
     if (event is Authentication) {
       yield* _settoken(event);
+      return;
     }
 
     if (event is CheckingAuth) {
       yield* _gettoken();
+      return;
+    }
+
+    if (event is Logout) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      bool isSuccess = await prefs.setString('TOKEN_LOGIN', null);
+      yield NotAuthenticated('Not auth');
+      return;
     }
   }
 
   Stream<AuthState> _settoken(event) async* {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.setString('TOKEN_LOGIN', event.token);
+    print(event.token);
     if (token != null)
       yield Authenticated(event.token);
     else
@@ -44,7 +55,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     var data = json.decode(response.body);
     var res = Response.fromJson(data);
     if (token != null && res.success) {
-          yield Authenticated(token);
+      yield Authenticated(token);
     } else
       yield NotAuthenticated(res.message);
   }

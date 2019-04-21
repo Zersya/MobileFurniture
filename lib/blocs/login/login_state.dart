@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:furniture_app/models/response.dart';
 
 abstract class LoginState extends Equatable {}
 
@@ -30,5 +31,22 @@ class LoginFailed extends LoginState {
   @override
   String toString() {
     return 'LoginFailed';
+  }
+}
+
+class RegisterSuccess extends LoginState {
+  @override
+  String toString() {
+    return 'RegisterFailed';
+  }
+}
+
+class RegisterFailed extends LoginState {
+  final message;
+
+  RegisterFailed(this.message);
+  @override
+  String toString() {
+    return 'RegisterFailed';
   }
 }

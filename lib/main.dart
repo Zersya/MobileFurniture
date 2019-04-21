@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:furniture_app/screens/splash/splash_screen.dart';
-
+import 'screens/register.dart';
 
 void main() => runApp(MyApp());
 

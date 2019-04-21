@@ -10,14 +10,18 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  AuthBloc _authBloc = AuthBloc();
+  AuthBloc _authBloc;
+  @override
+  void initState() {
+    _authBloc = AuthBloc();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder(
       bloc: _authBloc,
       builder: (BuildContext context, AuthState state) {
-        print(state);
         if (state is AuthInitial) {
           _authBloc.dispatch(CheckingAuth());
           return Scaffold(
@@ -63,8 +67,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
-    _authBloc.dispose();
     super.dispose();
   }
 }

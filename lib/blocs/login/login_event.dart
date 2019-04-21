@@ -14,3 +14,14 @@ class SubmitLogin extends LoginEvent {
     return 'SubmitLogin';
   }
 }
+
+class SubmitRegister extends LoginEvent {
+  final String username, password, name, phoneNumber, address_1, address_2, city, postCode, email;
+
+  SubmitRegister(this.username, this.password, this.name, this.phoneNumber, this.address_1, this.address_2, this.city, this.postCode, this.email);
+
+  @override
+  String toString() {
+    return 'SubmitRegister';
+  }
+}

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:furniture_app/blocs/authentication/auth.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:furniture_app/screens/home/transaction.screen.dart';
 import 'grid.item.screen.dart';
 import 'itemsCart.screen.dart';
@@ -21,7 +22,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   void initState() {
     tabController = TabController(length: 3, initialIndex: 0, vsync: this);
     authBloc = BlocProvider.of<AuthBloc>(context);
-
+    print(authBloc.currentState);
     super.initState();
   }
 
@@ -31,8 +32,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     super.dispose();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder(
@@ -41,38 +40,60 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           if (state is Authenticated) {
             final widgetBody = [
               BlocProvider(
-                      bloc: authBloc,
-                      child: GridItems(
-                        TOKEN: state.token,
-                      ),
-                    ),
-                    ItemsCart(TOKEN: state.token),
-                    TransactionOrder(TOKEN: state.token)
+                bloc: authBloc,
+                child: GridItems(
+                  TOKEN: state.token,
+                ),
+              ),
+              ItemsCart(TOKEN: state.token),
+              TransactionOrder(TOKEN: state.token)
             ];
             return Scaffold(
-              backgroundColor: Color.fromRGBO(223, 211, 195, 1),
+                backgroundColor: Color.fromRGBO(223, 211, 195, 1),
                 body: widgetBody[selectedMenu],
-                bottomNavigationBar: BottomAppBar(
-                  elevation: 5,
-                  color: Colors.brown,
-                  child: BottomNavigationBar(
-                    backgroundColor: Color.fromRGBO(199,177,152,1),
-                    selectedItemColor: Colors.black,
-                    currentIndex: selectedMenu,
-                    onTap: (i) {
-                      setState(() {
-                       selectedMenu = i; 
-                      });
-                    },
-                    items: <BottomNavigationBarItem>[
-                      BottomNavigationBarItem(
-                          icon: Icon(Icons.home), title: Text('Home')),
-                      BottomNavigationBarItem(
-                          icon: Icon(Icons.shopping_cart), title: Text('Cart')),
-                      BottomNavigationBarItem(
-                          icon: Icon(Icons.attach_money),
-                          title: Text('Transaction'))
-                    ],
+                bottomNavigationBar: GestureDetector(
+                  onLongPress: () {
+                    showModalBottomSheet(
+                        context: context,
+                        builder: (BuildContext bc) {
+                          return Container(
+                            child: new Wrap(
+                              children: <Widget>[
+                                new ListTile(
+                                    leading: new Icon(MdiIcons.logout),
+                                    title: new Text('Logout'),
+                                    onTap: () {
+                                      authBloc.dispatch(Logout());
+                                      Navigator.pop(bc);
+                                    }),
+                              ],
+                            ),
+                          );
+                        });
+                  },
+                  child: BottomAppBar(
+                    elevation: 5,
+                    color: Colors.brown,
+                    child: BottomNavigationBar(
+                      backgroundColor: Color.fromRGBO(199, 177, 152, 1),
+                      selectedItemColor: Colors.black,
+                      currentIndex: selectedMenu,
+                      onTap: (i) {
+                        setState(() {
+                          selectedMenu = i;
+                        });
+                      },
+                      items: <BottomNavigationBarItem>[
+                        BottomNavigationBarItem(
+                            icon: Icon(Icons.home), title: Text('Home')),
+                        BottomNavigationBarItem(
+                            icon: Icon(Icons.shopping_cart),
+                            title: Text('Cart')),
+                        BottomNavigationBarItem(
+                            icon: Icon(Icons.attach_money),
+                            title: Text('Transaction'))
+                      ],
+                    ),
                   ),
                 ));
           }

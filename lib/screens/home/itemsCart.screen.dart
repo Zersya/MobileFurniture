@@ -53,6 +53,13 @@ class _ItemsCartState extends State<ItemsCart> {
           bloc: cartBloc,
           builder: (BuildContext context, CartState cartState) {
             print('cartState  : ' + cartState.toString());
+            if (cartState is LoadingCart) {
+              return Center(
+                  child: CircularProgressIndicator(
+                valueColor: new AlwaysStoppedAnimation<Color>(
+                    Color.fromRGBO(199, 177, 152, 1)),
+              ));
+            }
             if (cartState is LoadedCart) {
               if (cartState.cart.itemsCart.length == 0)
                 return Center(child: Text('Kamu belum memesan apapun'));
@@ -84,14 +91,15 @@ class _ItemsCartState extends State<ItemsCart> {
                                     MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Text(
-                                    'Rp. ' +
-                                        FlutterMoneyFormatter(
-                                                amount: cartState.cart.price
-                                                    .toDouble())
-                                            .output
-                                            .nonSymbol,
-                                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)
-                                  ),
+                                      'Rp. ' +
+                                          FlutterMoneyFormatter(
+                                                  amount: cartState.cart.price
+                                                      .toDouble())
+                                              .output
+                                              .nonSymbol,
+                                      style: TextStyle(
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.bold)),
                                   FloatingActionButton(
                                     backgroundColor: Colors.brown,
                                     child:
@@ -113,12 +121,14 @@ class _ItemsCartState extends State<ItemsCart> {
             } else if (cartState is SubmitedToOrder) {
               return Center(
                   child: Text('Keranjang sudah dipindahkan ke orderan'));
-            } else {
+            } else if(cartState is NotLoadedCart) {
+              return Center(child: Text('Kamu belum memesan apapun'));
+            }else{
               return Center(
-              child: CircularProgressIndicator(
-            valueColor: new AlwaysStoppedAnimation<Color>(
-                Color.fromRGBO(199, 177, 152, 1)),
-          ));
+                  child: CircularProgressIndicator(
+                valueColor: new AlwaysStoppedAnimation<Color>(
+                    Color.fromRGBO(199, 177, 152, 1)),
+              ));
             }
           },
         ));

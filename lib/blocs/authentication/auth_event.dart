@@ -19,3 +19,11 @@ class Authentication extends AuthEvent {
   return 'Authentication';
    }
 }
+
+class Logout extends AuthEvent {
+
+  @override
+  String toString() {
+  return 'Logout';
+   }
+}

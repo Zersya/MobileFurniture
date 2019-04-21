@@ -15,7 +15,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   @override
   Stream<CartState> mapEventToState(CartEvent event) async* {
     yield LoadingCart();
-
+    print(event.toString());
     if (event is AddItemToCart) {
       String itemId = event.item.id;
       yield* _addToCart(
@@ -53,6 +53,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   }
 
   Stream<CartState> _addToCart(url, event) async* {
+    print(event.token);
+
     var response = await http.post(url, headers: {
       'Authorization': event.token,
     });
@@ -69,11 +71,13 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     var response = await http.get(url, headers: {
       'Authorization': event.token,
     });
+
     if (response.statusCode == 200) {
       List data = json.decode(response.body);
       var cart = Cart.fromJson(data[0]);
-      print(cart);
       yield LoadedCart(cart);
+    }else{
+      yield NotLoadedCart();
     }
   }
 
@@ -157,6 +161,13 @@ class LoadedCart extends CartState {
   @override
   String toString() {
     return 'LoadedCart';
+  }
+}
+
+class NotLoadedCart extends CartState {
+  @override
+  String toString() {
+    return 'NotLoadedCart';
   }
 }
 

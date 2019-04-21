@@ -3,9 +3,10 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:furniture_app/blocs/authentication/auth.dart';
 import 'package:furniture_app/blocs/login/login.dart';
-import './background_paint.dart';
+import '../register.dart';
 
 class LoginScreen extends StatefulWidget {
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -19,6 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     authBloc = BlocProvider.of<AuthBloc>(context);
     loginBloc = LoginBloc(authBloc);
+    print(authBloc.currentState);
     super.initState();
   }
 
@@ -35,18 +37,19 @@ class _LoginScreenState extends State<LoginScreen> {
       resizeToAvoidBottomPadding: true,
       body: Stack(children: <Widget>[
         Positioned(
-          top: 0,
-          left: 0,
-          child: Image(image: new AssetImage("images/VAtas.png"),
-          fit: BoxFit.cover,)
-        ),
-        
-      Positioned(
-          bottom: 0,
-          right: 0,
-          child: Image(image: new AssetImage("images/VBawah.png"),
-          fit: BoxFit.cover,)
-        ),
+            top: 0,
+            left: 0,
+            child: Image(
+              image: new AssetImage("images/VAtas.png"),
+              fit: BoxFit.cover,
+            )),
+        Positioned(
+            bottom: 0,
+            right: 0,
+            child: Image(
+              image: new AssetImage("images/VBawah.png"),
+              fit: BoxFit.cover,
+            )),
         Center(
           child: Container(
             padding: EdgeInsets.all(32.0),
@@ -85,6 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   FormLogin(
                     scaffoldKey: _scaffoldKey,
                     loginBloc: loginBloc,
+                    authBloc: authBloc,
                   ),
                 ],
               )),
@@ -99,8 +103,9 @@ class _LoginScreenState extends State<LoginScreen> {
 class FormLogin extends StatelessWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
   final LoginBloc loginBloc;
+  final AuthBloc authBloc;
 
-  FormLogin({Key key, this.scaffoldKey, this.loginBloc}) : super(key: key);
+  FormLogin({Key key, this.scaffoldKey, this.loginBloc, this.authBloc}) : super(key: key);
 
   var _formKey = GlobalKey<FormState>();
   var _usernameController = TextEditingController();
@@ -163,7 +168,43 @@ class FormLogin extends StatelessWidget {
           SizedBox(
             height: 25,
           ),
-          btnSubmit()
+          btnSubmit(),
+          SizedBox(
+            height: 25,
+          ),
+          Text("Don't have an Account?",
+              style: TextStyle(
+                fontSize: 15.0,
+                fontFamily: 'Roboto',
+                shadows: [
+                  Shadow(color: Colors.black, blurRadius: 0.5),
+                  Shadow(color: Colors.black87, blurRadius: 0.5)
+                ],
+                color: Color.fromRGBO(131, 132, 105, 1),
+              )),
+          SizedBox(
+            height: 5,
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => RegisterScreen(authBloc: authBloc,)),
+              );
+            },
+            child: Text("Register here !",
+                style: TextStyle(
+                  decoration: TextDecoration.underline,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15.0,
+                  fontFamily: 'Roboto',
+                  shadows: [
+                    Shadow(color: Colors.black, blurRadius: 0.5),
+                    Shadow(color: Colors.black87, blurRadius: 0.5)
+                  ],
+                  color: Color.fromRGBO(131, 132, 105, 1),
+                )),
+          ),
         ],
       ),
     ));
